@@ -18,8 +18,8 @@ export interface RegistrationRequest {
     first_name: string;
     last_name: string;
     addressone: string;
-    address_proof_file: [];
-    cancel_cheque_file: []
+    address_proof_file: string;
+    cancel_cheque_file: string
 }
 
 export interface RegistrationResponse {

@@ -1,7 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/service/auth.service';
 
 
@@ -22,11 +23,13 @@ export class RegisterComponent implements OnInit {
   verifyOtp: any;
   userType: any;
   businessType: any;
+  addressProfe: any;
+  cancelCheckBook: any;
 
   constructor(private _router: Router, private _fb: FormBuilder,
-    private _auth: AuthService) {
+    private _auth: AuthService,private toastr: ToastrService) {
     this.registerForm = _fb.group({
-      name: [''],
+      name: ['Arun'],
       email: [''],
       phone: ['',Validators.required],
       password: [''],
@@ -45,15 +48,17 @@ export class RegisterComponent implements OnInit {
       first_name: [''],
       last_name: [''],
       addressone: [''],
-      address_proof_file: [],
-      cancel_cheque_file: []
+      address_proof_file: [''],
+      cancel_cheque_file: ['']
     })
   }
   get f() { return this.registerForm.controls; }
 
   ngOnInit(): void {
 
+
   }
+
   selectCustomer(event: any) {
     console.log(event.target.value);
     this.userType = event.target.value;
@@ -85,19 +90,30 @@ export class RegisterComponent implements OnInit {
     alert(this.verifyOtp);
 
   };
+  getAddrssProfe(event: any) {
+    this.addressProfe = event.target.files[0].name;
+  }
+  getCancelcheck(event: any) {
+    this.cancelCheckBook = event.target.files[0].name;
+  }
   submitRegister() {
     if (this.registerForm.invalid) {
-      alert('Invalid form')
+      this.toastr.error('Form should not be emty !','Oops')
     } else {
-      this.submitted = true;
       this.registerForm.value.pref_product_size = this.chooseProductSize;
       this.registerForm.value.pref_product = this.chooseProduct;
       this.registerForm.value.user_type = this.userType;
       this.registerForm.value.business_nature = this.businessType;
+      this.registerForm.value.address_proof_file = this.addressProfe;
+      this.registerForm.value.cancel_cheque_file = this.cancelCheckBook;
       console.log(this.registerForm.value);
 
       this._auth.register(this.registerForm.value).subscribe(res => {
         console.log(res);
+        this.toastr.success('Registered successfully','');
+        this.registerForm.reset();
+      }, error => {
+        this.toastr.error('',error);
       })
     }
   }

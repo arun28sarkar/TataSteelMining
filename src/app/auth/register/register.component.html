@@ -794,7 +794,7 @@
                                                 <td class="position-relative">
                                                    <div class="uplodimg">
                                                       <div class="uplodimgfil">
-                                                         <input type="file" formControlName="address_proof_file" name="file-1[]" id="file-1"
+                                                         <input type="file" (change)="getAddrssProfe($event)" name="file-1[]" id="file-1"
                                                             class="inputfile inputfile-1"
                                                             data-multiple-caption="{count} files selected" multiple="">
                                                          <label for="file-1">Upload<img src="assets/images/upload.png"
@@ -818,7 +818,7 @@
                                                 <td class="position-relative">
                                                    <div class="uplodimg">
                                                       <div class="uplodimgfil">
-                                                         <input type="file" formControlName="cancel_cheque_file" name="file-1[]" id="file-1"
+                                                         <input type="file" (change)="getCancelcheck($event)" name="file-1[]" id="file-1"
                                                             class="inputfile inputfile-1"
                                                             data-multiple-caption="{count} files selected" multiple="">
                                                          <label for="file-1">Upload<img src="assets/images/upload.png"
