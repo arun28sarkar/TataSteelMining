@@ -19,7 +19,9 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   mobileNumber: any = '';
-  verifyOtp: any
+  verifyOtp: any;
+  userType: any;
+  businessType: any;
 
   constructor(private _router: Router, private _fb: FormBuilder,
     private _auth: AuthService) {
@@ -52,7 +54,10 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
 
   }
-
+  selectCustomer(event: any) {
+    console.log(event.target.value);
+    this.userType = event.target.value;
+  }
   onSelectCheckBox(event: any) {
     console.log(event.target.value);
     this.chooseProduct = event.target.value;
@@ -61,6 +66,10 @@ export class RegisterComponent implements OnInit {
     console.log(event.target.value);
     this.chooseProductSize = event.target.value;
   };
+  selectBusiness(event: any) {
+    console.log(event.target.value);
+    this.businessType = event.target.value;
+  }
   getOpt() {
     let mobileNu = {
       mobile_no: this.mobileNumber
@@ -83,7 +92,13 @@ export class RegisterComponent implements OnInit {
       this.submitted = true;
       this.registerForm.value.pref_product_size = this.chooseProductSize;
       this.registerForm.value.pref_product = this.chooseProduct;
+      this.registerForm.value.user_type = this.userType;
+      this.registerForm.value.business_nature = this.businessType;
       console.log(this.registerForm.value);
+
+      this._auth.register(this.registerForm.value).subscribe(res => {
+        console.log(res);
+      })
     }
   }
 }
